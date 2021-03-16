@@ -1,0 +1,60 @@
+<div class="modal hidden user-form-modal artist-modal" id="new-user-modal">
+    <div class="backdrop" modal-backdrop></div>
+
+    <div class="modal-content" pretty-scrollbar>
+        <div class="modal-header">
+            <h1>{{:: 'updateArtist' | translate }}</h1>
+            <div ng-click="closeModal()" class="close-modal-icon"><i class="icon icon-cancel"></i></div>
+        </div>
+
+        <form ng-submit="updateArtist()">
+            <div class="artist-image">
+                <img ng-src="{{ utils.img(selectedItem.image_small, 'artist') }}">
+            </div>
+
+            <div class="inputs">
+                <!--<div class="modal-error">-->
+                    <!--<div class="error" ng-repeat="error in errors">{{ error }}</div>-->
+                <!--</div>-->
+
+                <div class="input-container">
+                    <label for="name">{{:: 'name' | translate }}</label>
+                    <input placeholder="{{:: 'name' | translate }}" id="name" type="name" ng-model="selectedItem.name">
+                </div>
+
+                <div class="input-container">
+                    <label for="popularity">{{:: 'popularity' | translate }}</label>
+                    <input  placeholder="{{:: 'popularity' | translate }}" id="popularity" type="text" ng-model="selectedItem.spotify_popularity">
+                </div>
+
+                <div class="input-container">
+                    <label for="image_small">{{:: 'imageSmall' | translate }}</label>
+                    <input placeholder="{{:: 'image_small' | translate }}" id="image_small" type="text" ng-model="selectedItem.image_small">
+                </div>
+
+                <div class="input-container">
+                    <label for="image_large">{{:: 'imageLarge' | translate }}</label>
+                    <input placeholder="{{:: 'image_large' | translate }}" id="image_large" type="text" ng-model="selectedItem.image_large">
+                </div>
+            </div>
+        </form>
+
+        <div class="albums-page">
+            <section class="albums hover-overlay">
+                <figure class="album" ng-repeat="album in selectedItem.albums">
+                    <div class="image">
+                        <img ng-src="{{ utils.img(album.image, 'album') }}" alt="{{ album.name }}">
+                        <div class="overlay">
+                            <i class="icon icon-play play" ng-click="playAlbum(album)"></i>
+                        </div>
+                    </div>
+                    <figcaption>
+                        <a class="album-name" ui-sref="album({artistName:utils.encodeUrlParam(album.artist.name), name:utils.encodeUrlParam(album.name)})">{{ album.name }}</a>
+                        <a class="artist-name" ng-if="album.artist" ui-sref="artist({ name: utils.encodeUrlParam(album.artist.name) })">{{ album.artist.name }}</a>
+                    </figcaption>
+                </figure>
+            </section>
+        </div>
+
+    </div>
+</div>

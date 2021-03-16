@@ -1,0 +1,75 @@
+<section ng-controller="AlbumModifyController" class="album-modify">
+    <div class="artist-main-info">
+        <div class="artist-image">
+            <a ui-sref="album({name: utils.encodeUrlParam(album.name)})">
+                <img ng-src="{{ utils.img(album.image, 'album') }}">
+            </a>
+            <button class="primary" ng-click="showNewTrackModal()" ng-disabled="!album.id"><i class="icon icon-plus"></i> {{:: 'newTrack' | translate }}</button>
+            <button class="primary danger" ng-if="selectedTracks && selectedTracks.length" ng-click="deleteTracks()">{{:: 'deleteTracks' | translate }}</button>
+        </div>
+
+        <form class="inputs" ng-submit="updateAlbum(album)">
+            <div class="input-container">
+                <label for="name">{{:: 'name' | translate }}</label>
+                <input placeholder="{{:: 'name' | translate }}" id="name" type="text" ng-model="album.name" required>
+            </div>
+
+            <div class="input-container">
+                <label for="artist">{{:: 'artist' | translate }}</label>
+                <input placeholder="{{:: 'artistName' | translate }}" id="artist" type="text" ng-model="album.artist.name" required>
+            </div>
+
+            <div class="input-container">
+                <label for="popularity">{{:: 'popularity' | translate }}</label>
+                <input  placeholder="{{:: 'popularity' | translate }}" id="popularity" type="text" ng-model="album.spotify_popularity">
+            </div>
+
+            <div class="input-container">
+                <label for="image">{{:: 'image' | translate }}</label>
+                <div class="input-group">
+                    <i class="icon icon-upload" title="{{:: 'uploadImage' | translate }}" file-upload="uploadImage" ng-class="{disabled: !album.id}"></i>
+                    <input placeholder="{{:: 'image' | translate }}" id="image" type="text" ng-model="album.image">
+                </div>
+            </div>
+
+            <div class="input-container">
+                <label for="release_date">{{:: 'releaseDate' | translate }}</label>
+                <input placeholder="{{:: 'releaseDate' | translate }}" id="release_date" type="text" ng-model="album.release_date">
+            </div>
+
+            <button class="primary" type="submit">{{:: 'save' | translate }}</button>
+        </form>
+    </div>
+    
+    <div class="track-table material-table">
+        <div class="flex-table table-hover light admin-table">
+            <div class="flex-table-row flex-table-header">
+                <div class="flex-table-row-item small-col align-left">
+                    <input type="checkbox" ng-checked="selectedTracks.length === tracks.length" ng-click="toggleAllTracks()">
+                </div>
+                <div class="flex-table-row-item">{{:: 'name' | translate }}</div>
+                <div class="flex-table-row-item">{{:: 'number' | translate }}</div>
+                <div class="flex-table-row-item">{{:: 'artists' | translate }}</div>
+                <div class="flex-table-row-item">{{:: 'duration' | translate }}</div>
+                <div class="flex-table-row-item">{{:: 'youtube' | translate }}</div>
+                <div class="flex-table-row-item">{{:: 'url' | translate }}</div>
+                <div class="flex-table-row-item small-col align-right"></div>
+            </div>
+
+            <div class="table-body">
+                <div class="flex-table-row" ng-repeat="track in album.tracks" ng-class="{ selected: isTrackSelected(track) }" ng-click="selectTrack(track)">
+                    <div class="flex-table-row-item small-col align-left">
+                        <input type="checkbox" ng-checked="isTrackSelected(track)">
+                    </div>
+                    <div class="flex-table-row-item">{{ track.name }}</div>
+                    <div class="flex-table-row-item">{{ track.number }}</div>
+                    <div class="flex-table-row-item">{{ track.artists.join(', ') }}</div>
+                    <div class="flex-table-row-item">{{ utils.secondsToMSS(track.duration / 1000) }}</div>
+                    <div class="flex-table-row-item"><a target="_blank" href="{{'https://youtube.com/watch?v='+track.youtube_id}}">{{ track.youtube_id }}</a></div>
+                    <div class="flex-table-row-item"><a target="_blank" href="{{ track.url }}">{{ track.url }}</a></div>
+                    <div class="flex-table-row-item small-col align-right"><i class="icon icon-pencil" ng-click="showUpdateTrackModal(track); $event.stopPropagation()"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,43 @@
+<div id="home" class="page-shadow scroll-container home-page" ng-controller="PopularGenresController" pretty-scrollbar lazy-img-container>
+
+    <div class="artists-page" ng-if="utils.getSetting('genre_provider', 'local') === 'local'">
+        <section ng-repeat="genre in genres" ng-if="genre.artists.length">
+            <div class="genre">
+                <div class="name" ng-click="utils.toState('genre', {name: genre.name})">{{ genre.name }}</div>
+                <div class="more" ng-click="utils.toState('genre', {name: genre.name})">{{:: 'viewMore' | translate }} <i class="icon icon-right-open"></i></div>
+            </div>
+            <section class="artists hover-overlay">
+                <figure class="artist" ng-repeat="artist in genre.artists" context-menu-item="artist">
+                    <div class="image">
+                        <img lazy-img="{{ utils.img(artist.image_large, 'artist') }}" ng-src="{{ utils.img(false, 'album') }}" alt="{{ artist.name }}">
+                        <div class="overlay">
+                            <i class="icon icon-play play" ng-click="playArtist(artist)"></i>
+                        </div>
+                    </div>
+                    <figcaption>
+                        <a class="artist-name" ui-sref="artist({name:utils.encodeUrlParam(artist.name)})">{{ artist.name }}</a>
+                        <div class="number-of-tracks" ng-show="artist.numberOfTracks">{{ artist.numberOfTracks }} {{:: 'songsInYourLib' | translate }}</div>
+                    </figcaption>
+                </figure>
+            </section>
+        </section>
+    </div>
+
+    <div class="genres-container" ng-if="utils.getSetting('genre_provider', 'local') === 'last.fm'">
+
+        <div class="filter-bar">
+            <div class="sort">{{:: 'popularGenres' | translate }}</div>
+            <div class="filter hidden-phone">
+                <input type="text" ng-model="params.query" placeholder="{{:: 'filter' | translate }}">
+                <i class="icon icon-search"></i>
+            </div>
+        </div>
+
+        <div class="genres-inner-container">
+            <a class="genre-item" ng-repeat="genre in genres | filter:{name:params.query}" ui-sref="genre({name: utils.encodeUrlParam(genre.name)})">
+                <img lazy-img="{{ utils.img(genre.image, 'album') }}" ng-src="{{ utils.img(false, 'album') }}" alt="{{ genre.name }}">
+                <div class="name">{{ genre.name }}</div>
+            </a>
+        </div>
+    </div>
+</div>

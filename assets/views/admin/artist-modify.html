@@ -1,0 +1,73 @@
+<section ng-controller="ArtistModifyController" class="artist-modify">
+    <div class="artist-main-info">
+        <div class="artist-image">
+            <a ui-sref="artist({name: utils.encodeUrlParam(artist.name)})">
+                <img ng-src="{{ utils.img(artist.image_small, 'artist') }}">
+            </a>
+            <button class="primary" ui-sref="admin.newAlbum"><i class="icon icon-plus"></i> {{:: 'newAlbum' | translate }}</button>
+        </div>
+
+        <form class="inputs" ng-submit="updateArtist(artist)">
+            <div class="input-container">
+                <label for="name">{{:: 'name' | translate }}</label>
+                <input placeholder="{{:: 'name' | translate }}" id="name" type="text" ng-model="artist.name" required>
+            </div>
+
+            <div class="input-container">
+                <label for="popularity">{{:: 'popularity' | translate }}</label>
+                <input  placeholder="{{:: 'popularity' | translate }}" id="popularity" type="number" ng-model="artist.spotify_popularity" min="1" max="100" step="1">
+            </div>
+
+            <div class="input-container">
+                <label for="image_small">{{:: 'imageSmall' | translate }}</label>
+                <div class="input-group">
+                    <i class="icon icon-upload" title="{{:: 'uploadImage' | translate }}" file-upload="uploadImage" params="{ type: 'image_small' }" ng-class="{disabled: !artist.id}"></i>
+                    <input placeholder="{{:: 'imageSmall' | translate }}" id="image_small" type="text" ng-model="artist.image_small">
+                </div>
+            </div>
+
+            <div class="input-container">
+                <label for="image_large">{{:: 'imageLarge' | translate }}</label>
+                <div class="input-group">
+                    <i class="icon icon-upload" title="{{:: 'uploadImage' | translate }}" file-upload="uploadImage" params="{ type: 'image_large' }" ng-class="{disabled: !artist.id}"></i>
+                    <input placeholder="{{:: 'imageLarge' | translate }}" id="image_large" type="text" ng-model="artist.image_large">
+               </div>
+            </div>
+
+            <div class="input-container">
+                <label for="genres">{{:: 'genres' | translate }}</label>
+                <input placeholder="{{:: 'genres' | translate }}" id="genres" type="text" ng-model="genres">
+            </div>
+
+            <div class="input-container">
+                <label for="biography">{{:: 'biography' | translate }}</label>
+                <textarea placeholder="{{:: 'biography' | translate }}" id="biography" ng-model="bio" rows="3"></textarea>
+            </div>
+
+            <div class="input-container">
+                <label for="images">{{:: 'images' | translate }}</label>
+                <textarea placeholder="{{:: 'images' | translate }}" id="images" ng-model="images" rows="3"></textarea>
+            </div>
+
+            <button class="primary" type="submit">{{:: 'save' | translate }}</button>
+        </form>
+    </div>
+
+    <div class="albums-page">
+        <section class="albums hover-overlay">
+            <figure class="album" ng-repeat="album in artist.albums">
+                <div class="image">
+                    <img ng-src="{{ utils.img(album.image, 'album') }}" alt="{{ album.name }}">
+                    <div class="overlay">
+                        <i class="icon icon-pencil play" ui-sref="admin.editAlbum({id:album.id})" title="{{:: 'editAlbum' | translate }}"></i>
+                        <i class="icon icon-trash play" ng-click="deleteAlbum(album)" title="{{:: 'deleteAlbum' | translate }}"></i>
+                    </div>
+                </div>
+                <figcaption>
+                    <a class="album-name" ui-sref="album({artistName:utils.encodeUrlParam(album.artist.name), name:utils.encodeUrlParam(album.name)})">{{ album.name }}</a>
+                    <a class="artist-name" ng-if="album.artist" ui-sref="artist({ name: utils.encodeUrlParam(album.artist.name) })">{{ album.artist.name }}</a>
+                </figcaption>
+            </figure>
+        </section>
+    </div>
+</section>

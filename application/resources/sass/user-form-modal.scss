@@ -1,0 +1,41 @@
+.user-form-modal {
+
+  .modal-header {
+    margin-bottom: 20px;
+  }
+
+  .modal-error {
+    margin-bottom: 20px;
+  }
+
+  .input-container {
+    margin-bottom: 10px;
+
+    .input-group {
+      width: calc(100% - 154px);
+      height: 35px;
+    }
+
+    input, select {
+      border: 1px solid darken($admin-panel-border-color, 5%);
+      height: 35px;
+      border-radius: 3px;
+      width: calc(100% - 154px);
+      padding: 0 10px;
+    }
+
+    > label {
+      width: 150px;
+      display: inline-block;
+      font-weight: 500;
+    }
+
+    > p {
+      width: calc(100% - 154px);
+      margin-left: 36%;
+      margin-top: 4px;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+  }
+}

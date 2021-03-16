@@ -1,0 +1,43 @@
+.input-group {
+  width: calc(100% - 100px);
+  display: inline-flex;
+  align-items: center;
+  height: 43px;
+
+  > .icon {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: $primary-button-color;
+    color: $primary-button-text-color;
+    padding-bottom: 2px;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+      background-color: #E1E1E1;
+      box-shadow: none;
+      color: #B7B7B7;
+
+      &:hover {
+        background-color: #E1E1E1;
+      }
+    }
+
+    &:hover {
+      background-color: darken($primary-button-color, 5%);
+    }
+  }
+
+  > input {
+    border-left: none !important;
+    flex: 1 1 auto;
+  }
+
+}
